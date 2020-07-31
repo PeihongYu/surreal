@@ -56,6 +56,8 @@ def make_env(env_config, mode=None):
         env, env_config = make_robosuite(env_name, env_config)
     elif env_category == 'dm_control':
         env, env_config = make_dm_control(env_name, env_config)
+    elif env_category == 'airsim':
+        env, env_config = make_airsim(env_name, env_config)
     else:
         raise ValueError('Unknown environment category: {}'.format(env_category))
     return env, env_config
@@ -102,6 +104,23 @@ def make_robosuite(env_name, env_config):
     env_config.obs_spec = env.observation_spec()
     return env, env_config
 
+def make_airsim(env_name, env_config):
+    import surreal.env.drone_env as drone_env
+    if env_name == 'height_control':
+        env = drone_env.drone_env_heightcontrol()
+    env = RobosuiteWrapper(env, env_config)
+    env = FilterWrapper(env, env_config)
+    env = ObservationConcatenationWrapper(env)
+    if env_config.pixel_input:
+        env = TransposeWrapper(env)
+        if env_config.use_grayscale:
+            env = GrayscaleWrapper(env)
+        if env_config.frame_stacks:
+            env = FrameStackWrapper(env, env_config)
+    env_config.action_spec = env.action_spec()
+    env_config.obs_spec = env.observation_spec()
+
+    return env, env_config
 
 def make_dm_control(env_name, env_config):
     from dm_control import suite

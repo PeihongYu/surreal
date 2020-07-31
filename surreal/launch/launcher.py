@@ -53,6 +53,7 @@ class Launcher:
         self.config_args = config_args
 
         self.setup(config_args)
+        print("launch a surreal component --- ", args.component_name)
         self.launch(args.component_name)
 
     def launch(self, component_name):
@@ -78,12 +79,12 @@ class SurrealDefaultLauncher(Launcher):
         The default launcher instance of surreal.
     """
     def __init__(self,
-                 agent_class,
-                 learner_class,
-                 replay_class,
-                 session_config,
-                 env_config,
-                 learner_config,
+                 agent_class, #PPOAgent
+                 learner_class, #PPOLearner
+                 replay_class, #FIFOReplay
+                 session_config, #PPO_DEFAULT_SESSION_CONFIG
+                 env_config, #PPO_DEFAULT_ENV_CONFIG
+                 learner_config, #PPO_DEFAULT_LEARNER_CONFIG
                  eval_mode='eval_stochastic',
                  agent_batch_size=8,
                  eval_batch_size=8,

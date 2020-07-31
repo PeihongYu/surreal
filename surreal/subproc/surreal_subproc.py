@@ -83,7 +83,9 @@ class SubprocSurrealParser:
         parser.add_argument(
             '--env',
             type=str,
-            default='gym:HalfCheetah-v2',
+            # default='gym:HalfCheetah-v2',
+            default='robosuite:SawyerLift',
+            # default='airsim:height_control',
             help='What environment to run'
         )
         parser.add_argument(

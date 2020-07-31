@@ -265,6 +265,8 @@ class Agent(object, metaclass=U.AutoInitializeMeta):
         if self.agent_mode in ['eval_deterministic_local', 'eval_stochastic_local']:
             return
 
+        print("Current episode:", self.current_episode, "current step:", self.current_step)
+
         if self.current_episode % 20 == 0:
             self.log.info('Episode {} reward {}'
                           .format(self.current_episode,
